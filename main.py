@@ -32,6 +32,7 @@ def predict():
     dropout = pre_res.sum()
     percent = dropout / total * 100
 
+    # Вывод результата
     result_label.config(text=f'Из {total} студентов риск отчисления у {dropout}.\n'
                              f'Группа риска составляет {percent:.2f} % от общего числа')
 
@@ -41,11 +42,14 @@ def predict():
         'result': pre_res
     })
 
+    # Сортировка только группы риска по убыванию
     risk_group = result[result['result'] == 1].sort_values('predicts', ascending=False)
 
+    # Вставка заголовка
     result_entry.delete('1.0', 'end')
     result_entry.insert('end', 'Студенты в группе риска:\n\n')
 
+    # Итерированная вставка списка студентов
     for _, i in risk_group.iterrows():
         result_entry.insert('end', f"{i['id_student']}, вероятность отчисления: {i['predicts']:.1%}\n")
 
@@ -69,23 +73,19 @@ result_frame.pack(side='right', fill='both', expand=True)
 
 # Подпись для окошка ввода имени файла
 istr_label = ttk.Label(main_frame,
-                   text='Загрузите данные для анализа',
+                   text='Загрузите данные для анализа в формате .csv',
                    font=('Arial', 14))
 istr_label.pack(anchor='w', pady=10, padx=10)
 
 # Окно ввода имени файла
 data_entry = ttk.Entry(main_frame, font='20', width=50)
+data_entry.insert(0, 'new_data.csv')
 data_entry.pack(padx=10, pady=10)
 
 # Кпопка для расчета
 pred_btn = Button(main_frame, text='Рассчитать', font=20,
                   command=predict) # привязка к функции
 pred_btn.pack()
-
-# Переменные для вывода результата количеством и в процентах
-total = 100     # общее количество
-dropout = 20    # количество в группе риска
-percent = dropout / total * 100 # процент
 
 # Блок для вывода результата
 result_label = ttk.Label(main_frame, text='',
