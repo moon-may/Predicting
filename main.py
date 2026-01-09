@@ -1,20 +1,26 @@
 from tkinter import *
 from tkinter.scrolledtext import ScrolledText
 from tkinter import ttk
+from tkinter.messagebox import showinfo
 from tensorflow import keras
 import pandas as pd
 from users import users
 
-'''
-Загрузка модели
-Автор: Стасевич Екатерина Алексеевна
-Тема ВКР: Прогнозирование количества отчисленных студентов с помощью методов машинного обучения
-'''
-model = keras.models.load_model('model.keras')
+
+def load_model():
+    '''
+    Загрузка модели
+    Автор: Стасевич Екатерина Алексеевна
+    Тема ВКР: Прогнозирование количества отчисленных студентов с помощью методов машинного обучения
+    '''
+    # Возвращает модель
+    return keras.models.load_model('model.keras')
 
 
 # Интерфейс приложения
 def open_app():
+    # Сохраняет модель в переменную
+    model = load_model()
     # Логика работы приложения
     def predict():
         # Получить данные из поля ввода (путь к файлу)
@@ -110,6 +116,7 @@ def login_success():
 
 
 def login_wrong():
+    showinfo(title='Ошибка входа', message='Неверное имя пользователя или пароль')
     print('Доступ не разрешен')
 
 
@@ -123,10 +130,6 @@ def user_check():
     # Получает данные из полей ввода:
     name = username_entry.get()
     password = password_entry.get()
-
-    # Очищает поля ввода
-    username_entry.delete(0, 'end')
-    password_entry.delete(0, 'end')
 
     # Проверяет совпадение логина и пароля
     if users.get(name) == password:
