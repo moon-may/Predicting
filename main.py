@@ -2,9 +2,11 @@ from tkinter import *
 from tkinter.scrolledtext import ScrolledText
 from tkinter import ttk
 from tkinter.messagebox import showinfo
+from tkinter import filedialog
 from tensorflow import keras
 import pandas as pd
 from src.users import users
+import os
 
 
 def load_model():
@@ -63,6 +65,16 @@ def open_app():
         for _, i in risk_group.iterrows():
             result_entry.insert('end', f"{i['id_student']}, вероятность отчисления: {i['predicts']:.1%}\n")
 
+    # Выбор файла с компьютера
+    def load_file():
+        initial_dir = os.getcwd()  # получить текущую папку
+        filepath = filedialog.askopenfilename(initialdir=initial_dir, defaultextension='csv',
+                                              filetypes=[('CSV', '*.csv')])  # только csv
+        data_entry.delete(0, END)  # очистить поле
+        data_entry.insert(0, filepath)  # ввести путь к файлу
+
+
+
     root = Tk()
     # Заголовок окна
     root.title('Прогнозирование отчисленных студентов')
@@ -84,10 +96,18 @@ def open_app():
                        font=('Arial', 14))
     istr_label.pack(anchor='w', pady=10, padx=10)
 
+    # Фрейм для поля ввода и кнопки, чтобы поставить их рядом
+    file_frame = Frame(main_frame)
+    file_frame.pack(fill='x', pady=(0, 20))
+
     # Окно ввода имени файла
-    data_entry = ttk.Entry(main_frame, font='20', width=50)
+    data_entry = ttk.Entry(file_frame, font='20', width=50)
     data_entry.insert(0, 'datasets/new_data.csv')
-    data_entry.pack(padx=10, pady=10)
+    data_entry.pack(side='left', fill='x', expand=True, padx=10, pady=10)
+
+    # Кнопка для выбора файла
+    rewiew_btn = Button(file_frame, text='Обзор', command=load_file)
+    rewiew_btn.pack(side='right')
 
     # Кпопка для расчета
     pred_btn = Button(main_frame, text='Рассчитать', font=20,
