@@ -27,7 +27,19 @@ def open_app():
     def predict():
         # Получить данные из поля ввода (путь к файлу)
         file_path = data_entry.get()
-        data = pd.read_csv(file_path, dtype={'id_student': str})
+
+        # Обработка отсутствия файла по введенному адресу
+        if not os.path.exists(file_path):
+            showinfo(title='404', message='Ошибка! Файл с таким именем не найден. \n'
+                                          'Пожалуйста, проверьте правильность указанного пути.')
+            return
+
+        # Обработка ошибки чтения файла
+        try:
+            data = pd.read_csv(file_path, dtype={'id_student': str})
+        except Exception:
+            showinfo(title='Ошибка чтения файла', message='Не удалось прочитать файл')
+            return
 
         id_list = data['id_student'] # получаем список "имен"
         X_new = data.drop(columns=['id_student']) # удаляем ненужную колонку
