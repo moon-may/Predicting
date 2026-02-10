@@ -49,9 +49,6 @@ def open_app():
         # Представление класса 1 или 0
         pre_res = (predicts.flatten() > 0.5).astype(int)
 
-        print(predicts)
-        print(pre_res)
-
         total = len(pre_res)
         dropout = pre_res.sum()
         percent = dropout / total * 100
@@ -144,12 +141,10 @@ def open_app():
 def login_success():
     login_window.destroy()
     open_app()
-    print('Доступ разрешен')
 
 
 def login_wrong():
     showinfo(title='Ошибка входа', message='Неверное имя пользователя или пароль')
-    print('Доступ не разрешен')
 
 
 '''
