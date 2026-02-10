@@ -92,21 +92,21 @@ def open_app():
     root.resizable(False, False)
 
     # Главный фрейм для ввода данных и вывода основного результата
-    main_frame = Frame(root, width=600, height=500)
+    main_frame = Frame(root, width=600, height=500, background='#f6f5fb')
     main_frame.pack(side='left', fill='both', expand=True)
 
     # Дополнительный фрейм для списка студентов
-    result_frame = Frame(root, width=400, height=500)
+    result_frame = Frame(root, width=400, height=500, background='#f6f5fb')
     result_frame.pack(side='right', fill='both', expand=True)
 
     # Подпись для окошка ввода имени файла
     istr_label = ttk.Label(main_frame,
                        text='Загрузите данные для анализа в формате .csv',
-                       font=('Arial', 14))
+                       font=('Arial', 14), background='#f6f5fb')
     istr_label.pack(anchor='w', pady=10, padx=10)
 
     # Фрейм для поля ввода и кнопки, чтобы поставить их рядом
-    file_frame = Frame(main_frame)
+    file_frame = Frame(main_frame, background='#f6f5fb')
     file_frame.pack(fill='x', pady=(0, 20))
 
     # Окно ввода имени файла
@@ -115,17 +115,17 @@ def open_app():
     data_entry.pack(side='left', fill='x', expand=True, padx=10, pady=10)
 
     # Кнопка для выбора файла
-    rewiew_btn = Button(file_frame, text='Обзор', command=load_file)
+    rewiew_btn = Button(file_frame, text='Обзор', command=load_file, background='#f6f5fb')
     rewiew_btn.pack(side='right')
 
     # Кпопка для расчета
-    pred_btn = Button(main_frame, text='Рассчитать', font=20,
+    pred_btn = Button(main_frame, text='Рассчитать', font=20, background='#B3AADF',
                       command=predict) # привязка к функции
     pred_btn.pack()
 
     # Блок для вывода результата
     result_label = ttk.Label(main_frame, text='',
-                             font=('Arial', 14))
+                             font=('Arial', 14), background='#f6f5fb')
     result_label.pack(anchor='w', pady=10, padx=10)
 
     # Поле вывода списка студентов с результатами
@@ -164,7 +164,6 @@ def user_check():
     else:
         login_wrong()   # ошибка входа
 
-    print(name, password)
 
 login_window = Tk()
 
@@ -173,21 +172,24 @@ login_window.geometry('1000x500')
 login_window.resizable(False, False)
 
 login_window.title('Вход – Прогнозирование отчисленных студентов')
+login_window.configure(background='#f6f5fb')
 
 # Поле ввода имени пользователя
-label_name = Label(login_window, text='Введите имя пользователя', font='20', width=50)
+label_name = Label(login_window, text='Введите имя пользователя',
+                   font='20', width=50, background='#f6f5fb')
 username_entry = Entry(login_window, font='20', width=50)
 label_name.pack(padx=10, pady=10)
 username_entry.pack(padx=10, pady=10)
 
 # Поле ввода пароля
-label_password = Label(login_window, text='Введите пароль', font='20', width=50)
+label_password = Label(login_window, text='Введите пароль',
+                       font='20', width=50, background='#f6f5fb')
 password_entry = Entry(login_window, font='20', width=50, show='*') # закрывает символы *
 label_password.pack(padx=10, pady=10)
 password_entry.pack(padx=10, pady=10)
 
 # Кнопка "Вход"
-entered_btn = Button(login_window, text='Войти в систему', font='20', command=user_check)
+entered_btn = Button(login_window, text='Войти в систему', font='20', command=user_check, background='#B3AADF')
 entered_btn.pack(padx=10, pady=10)
 
 login_window.mainloop()
